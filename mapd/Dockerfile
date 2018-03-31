@@ -1,6 +1,6 @@
 FROM centos:6
-# MAINTAINER Michael Sarahan <msarahan@continuum.io>
-MAINTAINER Ivan Ogasawara <ivan.ogasawara@gmail.com>
+# Original DockerFile author:  Michael Sarahan <msarahan@continuum.io>
+MAINTAINER Ivan Ogasawara <ivan.ogasawara@quansight.com>
 
 WORKDIR /build_scripts
 
@@ -40,7 +40,7 @@ RUN bash yum_cleanup.sh && \
     rm -rf /build_scripts
 
 # from continuumio/centos5_gcc5_base:5.11-5.2-1
-# MAINTAINER Michael Sarahan <msarahan@continuum.io>
+# Original DockerFile author: Michael Sarahan <msarahan@continuum.io>
 
 WORKDIR /build_scripts
 COPY build/yum_install_syslibs.sh \
@@ -81,8 +81,6 @@ RUN yum update -y && \
 #     yum clean all
 
 RUN echo 'scl enable devtoolset-3 bash' >> /home/dev/.bash_history
-
-# MANTAINER Ivan Ogasawara <ivan.ogasawara@gmail.com>
 
 RUN echo 'anaconda_upload: True' > /home/dev/.condarc && \
     echo 'channels:' >> /home/dev/.condarc && \
