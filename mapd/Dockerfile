@@ -16,20 +16,16 @@ RUN yum install -y \
     maven \
     java-1.8.0-openjdk-devel \
     java-1.8.0-openjdk-headless \
-    gperftools \
-    gperftools-devel \
-    gperftools-libs \
     python-devel \
     wget \
     curl \
     environment-modules
 
 # COPY build_gcc.sh yum_cleanup.sh symlink_libraries.sh /build_scripts/
-COPY yum_cleanup.sh symlink_libraries.sh /build_scripts/
+COPY yum_cleanup.sh /build_scripts/
 
 # RUN bash build_gcc.sh
 RUN bash yum_cleanup.sh && \
-    bash symlink_libraries.sh && \
     rm -rf /build_scripts
 
 # from continuumio/centos5_gcc5_base:5.11-5.2-1
