@@ -90,10 +90,17 @@ RUN yum update -y && \
     yum install -y devtoolset-4-gcc* && \
     yum clean all
 
+RUN /opt/miniconda/bin/conda install -y conda-build
+
+RUN yum update -y && \
+    yum install -y devtoolset-6-gcc* && \
+    yum clean all
+
 RUN echo 'anaconda_upload: True' > /home/dev/.condarc && \
     echo 'channels:' >> /home/dev/.condarc && \
     echo '  - defaults' >> /home/dev/.condarc && \
-    echo '  - conda-forge' >> /home/dev/.condarc
+    echo '  - conda-forge' >> /home/dev/.condarc && \
+    echo '  - quansight' >> /home/dev/.condarc
 
 RUN echo 'conda build --user quansight pkg' > /home/dev/.bash_history
 
