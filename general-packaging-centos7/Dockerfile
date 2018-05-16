@@ -1,5 +1,7 @@
-FROM centos:7
+FROM centos/devtoolset-7-toolchain-centos7
 MAINTAINER Ivan Ogasawara <ivan.ogasawara@gmail.com>
+
+USER root
 
 # install_yum_deps.sh
 RUN yum install -y curl.x86_64 bzip2.x86_64 yum-utils glibc-devel patch \
@@ -48,15 +50,13 @@ RUN yum update -y && \
        devtoolset-6-gcc* && \
     yum clean all
 
-RUN echo 'anaconda_upload: True' > /home/dev/.condarc && \
-    echo 'channels:' >> /home/dev/.condarc && \
-    echo '  - defaults' >> /home/dev/.condarc && \
-    echo '  - conda-forge' >> /home/dev/.condarc && \
-    echo '  - quansight' >> /home/dev/.condarc
+RUN echo 'anaconda_upload: True' > ~/.condarc && \
+    echo 'channels:' >> ~/.condarc && \
+    echo '  - defaults' >> ~/.condarc && \
+    echo '  - conda-forge' >> ~/.condarc && \
+    echo '  - quansight' >> ~/.condarc
 
 RUN echo 'conda build --user quansight pkg' > /home/dev/.bash_history
-
 RUN echo 'scl enable devtoolset-4 bash' >> /home/dev/.bash_history
 
 WORKDIR /home/dev/code
-USER dev
