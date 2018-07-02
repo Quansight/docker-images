@@ -34,11 +34,6 @@ RUN rm -rf /build_scripts && \
     echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     echo 'Defaults:%wheel !requiretty' >> /etc/sudoers
 
-ADD build/internal_startup.sh /opt/share/internal_startup.sh
-ADD build/alias_32bit.sh /opt/share/alias_32bit.sh
-
-RUN /opt/miniconda/bin/conda install -y conda-build
-
 # install devtoolsets
 RUN yum update -y && \
     yum install -y \
@@ -47,16 +42,32 @@ RUN yum update -y && \
        devtoolset-2-gcc* \
        devtoolset-3-gcc* \
        devtoolset-4-gcc* \
-       devtoolset-6-gcc* && \
+       devtoolset-6-gcc* \
+       which && \
     yum clean all
 
-RUN echo 'anaconda_upload: True' > ~/.condarc && \
-    echo 'channels:' >> ~/.condarc && \
-    echo '  - defaults' >> ~/.condarc && \
-    echo '  - conda-forge' >> ~/.condarc && \
-    echo '  - quansight' >> ~/.condarc
+RUN /opt/miniconda/bin/conda install -y conda-build
 
-RUN echo 'conda build --user quansight pkg' > /home/dev/.bash_history
-RUN echo 'scl enable devtoolset-4 bash' >> /home/dev/.bash_history
+# RUN useradd -u 1001 -g 1001 -d $HOME -p '' 1001 && 
+RUN passwd -d $(id -nu 1001)
+RUN passwd -d $(id -nu 0)
+RUN echo '%default ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN chown -R default.default /opt/miniconda
 
-WORKDIR /home/dev/code
+USER 1001
+
+ADD build/internal_startup.sh /opt/share/internal_startup.sh
+ADD build/alias_32bit.sh /opt/share/alias_32bit.sh
+
+# RUN echo 'source /opt/share/internal_startup.sh' >> $HOME/.bashrc
+
+RUN echo 'anaconda_upload: True' > $HOME/.condarc && \
+    echo 'channels:' >> $HOME/.condarc && \
+    echo '  - defaults' >> $HOME/.condarc && \
+    echo '  - conda-forge' >> $HOME/.condarc && \
+    echo '  - quansight' >> $HOME/.condarc
+
+RUN echo 'conda build --user quansight pkg' > $HOME/.bash_history && \
+    echo 'scl enable devtoolset-4 bash' >> $HOME/.bash_history
+
+WORKDIR $HOME/code

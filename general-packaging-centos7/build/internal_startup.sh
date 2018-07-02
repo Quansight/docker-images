@@ -46,10 +46,10 @@ if [ -f /id_rsa ]; then
     mkdir -p .ssh
     sudo cp /id_rsa .ssh/
     chmod 700 .ssh
-    sudo chown dev: .ssh/id_rsa
+    sudo chown default: .ssh/id_rsa
     sudo chmod 600 .ssh/id_rsa
-    echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-    echo -e "Host bremen\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> $HOME/.ssh/config
+    echo -e "Host bremen\n\tStrictHostKeyChecking no\n" >> $HOME/.ssh/config
 fi
 
 if [[ $# < 1 ]]; then
@@ -77,7 +77,7 @@ if [[ $# < 1 ]]; then
     echo "    miniconda (2.7) is installed at /opt/miniconda."
     echo "    git is also available."
 
-    if [ -f "/home/dev/.gitconfig" ]; then
+    if [ -f "$HOME/.gitconfig" ]; then
         echo "    Your .gitconfig has been imported."
     fi
 
