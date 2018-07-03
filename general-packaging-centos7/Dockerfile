@@ -18,19 +18,20 @@ RUN yum install -y java-1.7.0-openjdk java-1.7.0-openjdk-devel libgcj ant && \
     yum clean all
 
 # Install miniconda
-WORKDIR /build_scripts
-COPY build/install_miniconda.sh \
-     /build_scripts/
+# WORKDIR /build_scripts
+# COPY build/install_miniconda.sh \
+#      /build_scripts/
+# 
+# RUN bash install_miniconda.sh
+# 
+# RUN rm -rf /build_scripts && \
+#     mkdir -p /opt/share && \
+#     mkdir -p /opt/miniconda/conda-bld/work/linux-64 && \
+#     mkdir -p /opt/miniconda/conda-bld/work/linux-32 && \
+#     mkdir -p /opt/miniconda/conda-bld/work/noarch && \
+#     chmod -R 777 /opt && \
 
-RUN bash install_miniconda.sh
-
-RUN rm -rf /build_scripts && \
-    mkdir -p /opt/share && \
-    mkdir -p /opt/miniconda/conda-bld/work/linux-64 && \
-    mkdir -p /opt/miniconda/conda-bld/work/linux-32 && \
-    mkdir -p /opt/miniconda/conda-bld/work/noarch && \
-    chmod -R 777 /opt && \
-    useradd -m --uid 1000 -G wheel dev && \
+RUN useradd -m --uid 1000 -G wheel dev && \
     echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     echo 'Defaults:%wheel !requiretty' >> /etc/sudoers
 
@@ -46,13 +47,13 @@ RUN yum update -y && \
        which && \
     yum clean all
 
-RUN /opt/miniconda/bin/conda install -y conda-build
+# RUN /opt/miniconda/bin/conda install -y conda-build
 
 # RUN useradd -u 1001 -g 1001 -d $HOME -p '' 1001 && 
 RUN passwd -d $(id -nu 1001)
 RUN passwd -d $(id -nu 0)
 RUN echo '%default ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN chown -R default.default /opt/miniconda
+# RUN chown -R default.default /opt/miniconda
 
 USER 1001
 
