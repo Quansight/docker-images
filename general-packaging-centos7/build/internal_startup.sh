@@ -7,10 +7,10 @@ fi
 
 # Setup home environment
 
-export PATH=/usr/local/bin:/opt/miniconda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/miniconda/lib:$LD_LIBRARY_PATH
-export LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/miniconda/lib:$LIBRARY_PATH
-export INCLUDE=/opt/miniconda/include:$INCLUDE
+export PATH=/usr/local/bin:/opt/miniconda_pkg/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/miniconda_pkg/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:/opt/miniconda_pkg/lib:$LIBRARY_PATH
+export INCLUDE=/opt/miniconda_pkg/include:$INCLUDE
 export CXXFLAGS="${CXXFLAGS} -Wabi=2"
 
 if [ $ABI -lt 5 ]; then
@@ -74,7 +74,7 @@ if [[ $# < 1 ]]; then
     echo "    Native arch is x86_64.  ${ARCH_DOC}"
     echo
     echo "    The dev user (currently signed in) has passwordless sudo access."
-    echo "    miniconda (2.7) is installed at /opt/miniconda."
+    echo "    miniconda (2.7) is installed at /opt/miniconda_pkg."
     echo "    git is also available."
 
     if [ -f "$HOME/.gitconfig" ]; then
